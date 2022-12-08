@@ -1,4 +1,4 @@
-package utils
+package golangUtils
 
 import (
 	"log"
@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+// CurrentAbPath 获取当前运行目录
 func CurrentAbPath() string {
 	dir := getCurrentAbPathByExecutable()
 	if strings.Contains(dir, getTmpDir()) {
