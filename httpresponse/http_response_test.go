@@ -1,4 +1,4 @@
-package golangUtils
+package httpresponse
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package golangUtils
+package pathtool
 
 import "testing"
 
