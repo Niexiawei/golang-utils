@@ -5,10 +5,11 @@ import (
 )
 
 type Response struct {
-	Code    int32  `json:"code"`
-	Message string `json:"message"`
-	Data    any    `json:"data"`
-	Error   any    `json:"error"`
+	Code     int32  `json:"code"`
+	Message  string `json:"message"`
+	Data     any    `json:"data"`
+	Error    any    `json:"error"`
+	HttpCode int    `json:"-"`
 }
 
 type Context interface {
@@ -51,7 +52,7 @@ func (r *Response) ResultOk(c Context) {
 }
 
 func (r *Response) ResultFail(c Context, httpCode ...int) {
-	code := 500
+	code := 200
 	if len(httpCode) >= 1 {
 		code = httpCode[0]
 	}
@@ -78,6 +79,12 @@ func ResultWithData(data any) ResponseResultOptions {
 	}
 }
 
+func ResultWithHttpCode(code int) ResponseResultOptions {
+	return func(response *Response) {
+		response.HttpCode = code
+	}
+}
+
 func Result(c Context, code int32, options ...ResponseResultOptions) {
 	response := &Response{
 		Code:    code,
@@ -89,12 +96,13 @@ func Result(c Context, code int32, options ...ResponseResultOptions) {
 	c.JSON(200, response)
 }
 
-func ResultFail(c Context, code int32, httpCode int, options ...ResponseResultOptions) {
+func ResultFail(c Context, code int32, options ...ResponseResultOptions) {
 	response := &Response{
-		Code: code,
+		Code:     code,
+		HttpCode: 200,
 	}
 	for _, o := range options {
 		o(response)
 	}
-	c.JSON(httpCode, response)
+	c.JSON(response.HttpCode, response)
 }
