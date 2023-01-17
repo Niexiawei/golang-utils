@@ -30,12 +30,18 @@ func runWriterRandomOffset() {
 
 func RandInt(min, max int) int {
 	offset := <-randomOffsetInt
+	if min > max {
+		min, max = max, min
+	}
 	r := rand.New(rand.NewSource(time.Now().UnixNano() + offset))
 	return r.Intn(max-min) + min
 }
 
 func RandFloat64(max, min float64) float64 {
 	offset := <-randomOffsetInt
+	if min > max {
+		min, max = max, min
+	}
 	r := rand.New(rand.NewSource(time.Now().UnixNano() + offset))
 	randomFloat64 := min + r.Float64()*(max-min)
 	random, _ := strconv.ParseFloat(fmt.Sprintf("%.4f", randomFloat64), 64)

@@ -18,7 +18,7 @@ func TestResult(t *testing.T) {
 		"xixi": "6666",
 	}))
 	fmt.Printf("\n")
-	ResultFail(c, 500, 301, ResultWithMsg("用户认证失败"))
+	ResultFail(c, 500, ResultWithMsg("用户认证失败"))
 }
 
 func TestNewResponse(t *testing.T) {
