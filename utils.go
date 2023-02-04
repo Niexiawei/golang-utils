@@ -1,6 +1,7 @@
 package golangutils
 
 import (
+	"os"
 	"reflect"
 	"unsafe"
 )
@@ -25,4 +26,12 @@ func StringToBytes(s string) []byte {
 
 func BytesToString(b []byte) string {
 	return *(*string)(unsafe.Pointer(&b))
+}
+
+func GetEnvDefault(key, defVal string) string {
+	val, ex := os.LookupEnv(key)
+	if !ex {
+		return defVal
+	}
+	return val
 }
