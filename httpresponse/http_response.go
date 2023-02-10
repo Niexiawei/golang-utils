@@ -5,22 +5,29 @@ import (
 )
 
 type Response struct {
-	Code     int32  `json:"code"`
-	Message  string `json:"message"`
-	Data     any    `json:"data"`
-	Error    any    `json:"error"`
-	HttpCode int    `json:"-"`
+	Code     int32   `json:"code"`
+	Message  string  `json:"message"`
+	Data     any     `json:"data"`
+	Error    any     `json:"error"`
+	HttpCode int     `json:"-"`
+	Context  Context `json:"-"`
 }
 
 type Context interface {
 	JSON(code int, obj any)
 }
 
-func NewResponse(code int32, msg string) *Response {
+func NewResponse(c Context, code int32, msg string) *Response {
 	return &Response{
 		Code:    code,
 		Message: msg,
+		Context: c,
 	}
+}
+
+func (r *Response) WithCode(code int32) *Response {
+	r.Code = code
+	return r
 }
 
 func (r *Response) WithData(data any) *Response {
@@ -47,16 +54,16 @@ func (r *Response) Get() Response {
 	return *r
 }
 
-func (r *Response) ResultOk(c Context) {
-	c.JSON(200, r)
+func (r *Response) ResultOk() {
+	r.Context.JSON(200, r)
 }
 
-func (r *Response) ResultFail(c Context, httpCode ...int) {
+func (r *Response) ResultFail(httpCode ...int) {
 	code := 200
 	if len(httpCode) >= 1 {
 		code = httpCode[0]
 	}
-	c.JSON(code, r)
+	r.Context.JSON(code, r)
 }
 
 type ResponseResultOptions func(response *Response)

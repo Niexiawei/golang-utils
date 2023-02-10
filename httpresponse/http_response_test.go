@@ -18,18 +18,18 @@ func TestResult(t *testing.T) {
 		"xixi": "6666",
 	}))
 	fmt.Printf("\n")
-	ResultFail(c, 500, ResultWithMsg("用户认证失败"))
+	ResultFail(c, 500, ResultWithMsg("用户认证失败"), ResultWithHttpCode(401))
 }
 
 func TestNewResponse(t *testing.T) {
 	c := &responseContext{}
-	NewResponse(200, "ok").WithData(
+	NewResponse(c, 200, "ok").WithData(
 		map[string]string{
 			"xixi": "6666",
-		}).ResultOk(c)
+		}).ResultOk()
 
-	NewResponse(500, "ok").WithData(
+	NewResponse(c, 500, "ok").WithData(
 		map[string]string{
 			"xixi": "6666",
-		}).WithError("页面不存在").ResultFail(c, 404)
+		}).WithError("页面不存在").WithMessage("页面不存在！").ResultFail(404)
 }
