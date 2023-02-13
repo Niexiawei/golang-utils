@@ -12,3 +12,11 @@ func PathExists(path string) (bool, error) {
 	}
 	return false, err
 }
+
+func IsDir(path string) (bool, error) {
+	f, err := os.Stat(path)
+	if err != nil {
+		return false, err
+	}
+	return f.IsDir(), nil
+}

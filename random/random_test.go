@@ -19,3 +19,7 @@ func Test_int_swap_point(t *testing.T) {
 	swap(&min, &max)
 	fmt.Println(min, max)
 }
+
+func Test_RandomStr(t *testing.T) {
+	t.Log(RandStr(32))
+}

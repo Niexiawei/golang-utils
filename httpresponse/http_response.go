@@ -17,6 +17,12 @@ type Context interface {
 	JSON(code int, obj any)
 }
 
+func NewSimpleResponse(c Context) *Response {
+	return &Response{
+		Context: c,
+	}
+}
+
 func NewResponse(c Context, code int32, msg string) *Response {
 	return &Response{
 		Code:    code,

@@ -7,7 +7,7 @@ import (
 	"runtime/debug"
 )
 
-type errorWithStack struct {
+type ErrorWithStack struct {
 	error
 	stack
 }
@@ -22,19 +22,19 @@ func NewStackErr(err error) error {
 	if err == nil {
 		return nil
 	}
-	return &errorWithStack{
+	return &ErrorWithStack{
 		err,
 		callers(),
 	}
 }
 
-func (w *errorWithStack) Unwrap() error { return w.error }
+func (w *ErrorWithStack) Unwrap() error { return w.error }
 
-func (w *errorWithStack) Is(err error) bool {
+func (w *ErrorWithStack) Is(err error) bool {
 	return reflect.TypeOf(*w).Name() == reflect.TypeOf(err).Name()
 }
 
-func (w *errorWithStack) Format(s fmt.State, verb rune) {
+func (w *ErrorWithStack) Format(s fmt.State, verb rune) {
 	switch verb {
 	case 'v':
 		if s.Flag('+') {
