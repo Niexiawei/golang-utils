@@ -58,7 +58,7 @@ func RandInt(min, max int) int {
 	return src.Intn(max-min) + min
 }
 
-func RandFloat64(max, min float64) float64 {
+func RandFloat64(min, max float64) float64 {
 	if min > max {
 		min, max = max, min
 	}
