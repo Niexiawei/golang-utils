@@ -16,4 +16,5 @@ func Test_getCurrentAbPathByCaller(t *testing.T) {
 
 func TestCurrentAbPath(t *testing.T) {
 	t.Log(CurrentAbPath())
+	t.Log(RuntimePath)
 }
