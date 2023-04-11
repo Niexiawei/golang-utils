@@ -3,6 +3,7 @@ package build
 const (
 	DEV  = "dev"
 	PROD = "prod"
+	Test = "test"
 )
 
 var (
@@ -15,4 +16,8 @@ func IsProd() bool {
 
 func IsDev() bool {
 	return VersionType == DEV
+}
+
+func IsTest() bool {
+	return VersionType == Test
 }
