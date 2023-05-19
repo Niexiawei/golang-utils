@@ -23,6 +23,14 @@ func NewSimpleResponse(c Context) *Response {
 	}
 }
 
+func NewDefaultResponse(c Context) *Response {
+	return &Response{
+		Context: c,
+		Message: "ok",
+		Code:    200,
+	}
+}
+
 func NewResponse(c Context, code int32, msg string) *Response {
 	return &Response{
 		Code:    code,
