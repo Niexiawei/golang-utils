@@ -54,6 +54,12 @@ func (r *Response) WithError(err any) *Response {
 	return r
 }
 
+func (r *Response) WithErrorAndCode(err any, code int32) *Response {
+	r.Error = err
+	r.Code = code
+	return r
+}
+
 func (r *Response) WithMessage(msg string) *Response {
 	r.Message = msg
 	return r
