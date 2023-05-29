@@ -5,33 +5,41 @@ import (
 )
 
 type Response struct {
-	Code     int32   `json:"code"`
-	Message  string  `json:"message"`
-	Data     any     `json:"data"`
-	Error    any     `json:"error"`
-	HttpCode int     `json:"-"`
-	Context  Context `json:"-"`
+	Code           int32   `json:"code"`
+	Message        string  `json:"message"`
+	Data           any     `json:"data"`
+	Error          any     `json:"error"`
+	HttpCode       int     `json:"-"`
+	Context        Context `json:"-"`
+	defaultErrCode int32
 }
 
 type Context interface {
 	JSON(code int, obj any)
 }
 
-func NewSimpleResponse(c Context) *Response {
+func NewDefaultResponse(c Context, option ...Options) *Response {
+	params := &ResponseParams{
+		DefaultErrCode: 500,
+	}
+	for _, o := range option {
+		o(params)
+	}
 	return &Response{
-		Context: c,
+		Context:        c,
+		Message:        "ok",
+		Code:           200,
+		defaultErrCode: params.DefaultErrCode,
 	}
 }
 
-func NewDefaultResponse(c Context) *Response {
-	return &Response{
-		Context: c,
-		Message: "ok",
-		Code:    200,
+func NewResponse(c Context, code int32, msg string, option ...Options) *Response {
+	params := &ResponseParams{
+		DefaultErrCode: 500,
 	}
-}
-
-func NewResponse(c Context, code int32, msg string) *Response {
+	for _, o := range option {
+		o(params)
+	}
 	return &Response{
 		Code:    code,
 		Message: msg,
@@ -51,6 +59,7 @@ func (r *Response) WithData(data any) *Response {
 
 func (r *Response) WithError(err any) *Response {
 	r.Error = err
+	r.Code = r.defaultErrCode
 	return r
 }
 
