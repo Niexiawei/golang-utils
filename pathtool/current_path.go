@@ -18,7 +18,9 @@ func init() {
 }
 
 // CurrentAbPath 获取当前运行目录
+// Deprecated: 不推荐使用此方法应该使用环境变量来切换所需要的目录，将在2023年10月后移除
 func CurrentAbPath() string {
+	getCurrentAbPathByCaller()
 	dir := getCurrentAbPathByExecutable()
 	if strings.Contains(dir, getTmpDir()) {
 		return getCurrentAbPathByCaller()
@@ -49,7 +51,6 @@ func getCurrentAbPathByExecutable() string {
 // 获取当前执行文件绝对路径（go run）
 func getCurrentAbPathByCaller() string {
 	var abPath string
-
 	for i := 0; i <= 5; i++ {
 		_, filename, _, ok := runtime.Caller(i)
 		if ok && !strings.Contains(filename, "current_path") {
@@ -57,13 +58,6 @@ func getCurrentAbPathByCaller() string {
 			break
 		}
 	}
-
-	//_, filename, _, ok := runtime.Caller(2)
-	//if ok {
-	//	abPath = path.Dir(filename)
-	//}
-
 	abPath = path.Dir(abPath)
-
 	return abPath
 }
