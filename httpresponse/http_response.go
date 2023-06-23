@@ -60,6 +60,7 @@ func (r *Response) WithData(data any) *Response {
 func (r *Response) WithError(err any) *Response {
 	r.Error = err
 	r.Code = r.defaultErrCode
+	r.Message = ""
 	return r
 }
 
