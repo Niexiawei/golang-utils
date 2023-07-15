@@ -6,9 +6,9 @@ import (
 
 type Response struct {
 	Code           int32   `json:"code"`
-	Message        string  `json:"message"`
-	Data           any     `json:"data"`
-	Error          any     `json:"error"`
+	Message        string  `json:"message,omitempty"`
+	Data           any     `json:"data,omitempty"`
+	Error          any     `json:"error,omitempty"`
 	HttpCode       int     `json:"-"`
 	Context        Context `json:"-"`
 	defaultErrCode int32
