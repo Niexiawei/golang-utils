@@ -6,11 +6,12 @@ import (
 	"reflect"
 )
 
-func If[T any](condition bool, trueVal, falseVal T) T {
+// Deprecated: 移动到 condition 包内
+func If[T, U any](condition bool, trueVal, elseVal T) T {
 	if condition {
 		return trueVal
 	} else {
-		return falseVal
+		return elseVal
 	}
 }
 
