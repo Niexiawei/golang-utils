@@ -23,3 +23,19 @@ func Test_int_swap_point(t *testing.T) {
 func Test_RandomStr(t *testing.T) {
 	t.Log(RandStr(32))
 }
+
+func TestRandInt(t *testing.T) {
+	for i := 1; i <= 10; i++ {
+		t.Log(RandInt(1, 99))
+	}
+}
+
+func TestRandFloat64(t *testing.T) {
+	for i := 1; i <= 10; i++ {
+		t.Log(RandFloat64(0.99, 100.99))
+	}
+}
+
+func TestRandStr(t *testing.T) {
+	t.Log(RandStr(15))
+}
