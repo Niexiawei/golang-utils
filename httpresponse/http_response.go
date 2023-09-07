@@ -98,21 +98,9 @@ func (r *Response) ResultFail(httpCode ...int) {
 
 type ResponseResultOptions func(response *Response)
 
-func ResultWithMsg(msg string) ResponseResultOptions {
-	return func(response *Response) {
-		response.Message = msg
-	}
-}
-
 func ResultWithError(error any) ResponseResultOptions {
 	return func(response *Response) {
 		response.Error = error
-	}
-}
-
-func ResultWithData(data any) ResponseResultOptions {
-	return func(response *Response) {
-		response.Data = data
 	}
 }
 
@@ -122,10 +110,11 @@ func ResultWithHttpCode(code int) ResponseResultOptions {
 	}
 }
 
-func Result(c Context, code int32, options ...ResponseResultOptions) {
+func Result(c Context, code int32, data any, msg string, options ...ResponseResultOptions) {
 	response := &Response{
 		Code:    code,
-		Message: "ok",
+		Message: msg,
+		Data:    data,
 	}
 	for _, o := range options {
 		o(response)
@@ -133,10 +122,12 @@ func Result(c Context, code int32, options ...ResponseResultOptions) {
 	c.JSON(200, response)
 }
 
-func ResultFail(c Context, code int32, options ...ResponseResultOptions) {
+func ResultFail(c Context, code int32, data any, msg string, options ...ResponseResultOptions) {
 	response := &Response{
 		Code:     code,
 		HttpCode: 200,
+		Message:  msg,
+		Data:     data,
 	}
 	for _, o := range options {
 		o(response)
