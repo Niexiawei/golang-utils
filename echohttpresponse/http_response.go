@@ -24,10 +24,22 @@ func ResultWithHttpCode(code int) ResponseResultOptions {
 	}
 }
 
-func Result(c Context, code int32, data any, msg string, options ...ResponseResultOptions) error {
+func ResultWithData(data any) ResponseResultOptions {
+	return func(response *Response) {
+		response.Data = data
+	}
+}
+
+func ResultWithMsg(msg string) ResponseResultOptions {
+	return func(response *Response) {
+		response.Message = msg
+	}
+}
+
+func Result(c Context, code int32, data any, options ...ResponseResultOptions) error {
 	response := &Response{
 		Code:    code,
-		Message: msg,
+		Message: "ok",
 		Data:    data,
 	}
 	for _, o := range options {
@@ -36,12 +48,12 @@ func Result(c Context, code int32, data any, msg string, options ...ResponseResu
 	return c.JSON(200, response)
 }
 
-func ResultFail(c Context, code int32, data any, msg string, options ...ResponseResultOptions) error {
+func ResultFail(c Context, code int32, msg string, options ...ResponseResultOptions) error {
 	response := &Response{
 		Code:     code,
 		HttpCode: 200,
 		Message:  msg,
-		Data:     data,
+		Data:     nil,
 	}
 	for _, o := range options {
 		o(response)
