@@ -1,18 +1,15 @@
-package golangutils
+package strings
 
 import "unsafe"
 
-// Deprecated: 移动到 stringstools 包内
 func BytesToString(b []byte) string {
 	return unsafe.String(&b[0], len(b))
 }
 
-// Deprecated: 移动到 stringstools 包内
 func StringToBytes(s string) []byte {
 	return unsafe.Slice(unsafe.StringData(s), len(s))
 }
 
-// Deprecated: 移动到 stringstools 包内
 func ChunkString[T ~string](str T, size int) []T {
 	if size <= 0 {
 		panic("Size parameter must be greater than 0")

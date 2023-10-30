@@ -1,4 +1,4 @@
-package pathtool
+package filepath
 
 import (
 	"log"

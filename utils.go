@@ -7,13 +7,13 @@ import (
 )
 
 // Deprecated: 移动到 condition 包内
-func If[T, U any](condition bool, trueVal, elseVal T) T {
-	if condition {
-		return trueVal
-	} else {
-		return elseVal
-	}
-}
+//func If[T, U any](condition bool, trueVal, elseVal T) T {
+//	if condition {
+//		return trueVal
+//	} else {
+//		return elseVal
+//	}
+//}
 
 func GetEnvDefault(key, defVal string) string {
 	val, ex := os.LookupEnv(key)
@@ -41,6 +41,7 @@ func IsBlank(value reflect.Value) bool {
 	return reflect.DeepEqual(value.Interface(), reflect.Zero(value.Type()).Interface())
 }
 
+// Deprecated 移动到 httptools 包内
 func CookiesMerge(old, new []*http.Cookie) []*http.Cookie {
 	newMap := map[string]*http.Cookie{}
 	oldMap := map[string]*http.Cookie{}

@@ -1,4 +1,4 @@
-package databasetools
+package database
 
 import (
 	"database/sql/driver"
