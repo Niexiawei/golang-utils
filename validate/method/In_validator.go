@@ -30,6 +30,9 @@ func (i InValidatorRegister) ValidatorRegister(v *validator.Validate) error {
 
 func inValidator(fl validator.FieldLevel) bool {
 	var value string
+	if fl.Field().IsZero() {
+		return true
+	}
 	val := fl.Field().Interface()
 	param := fl.Param()
 	params := strings.Split(param, " ")

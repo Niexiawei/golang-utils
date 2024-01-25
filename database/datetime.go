@@ -4,7 +4,7 @@ import (
 	"database/sql/driver"
 	"errors"
 	"fmt"
-	golangutils "github.com/Niexiawei/golang-utils"
+	"github.com/Niexiawei/golang-utils/strings"
 	"time"
 )
 
@@ -15,7 +15,7 @@ var (
 type LocalTime time.Time
 
 func (l *LocalTime) UnmarshalJSON(bytes []byte) error {
-	t, err := time.Parse("\"2006-01-02 15:04:05\"", golangutils.BytesToString(bytes))
+	t, err := time.Parse("\"2006-01-02 15:04:05\"", strings.BytesToString(bytes))
 	if err != nil {
 		return err
 	}
