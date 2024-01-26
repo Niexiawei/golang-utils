@@ -29,8 +29,10 @@ func Cors[T ginContext](c T, method string) {
 	c.Next()
 }
 
-func RequestId[T ginContext](c T) {
-	u, _ := uuid.NewV4()
-	c.Header("Request-Id", u.String())
-	c.Next()
+func RequestId[T ginContext]() func(T) {
+	return func(t T) {
+		u, _ := uuid.NewV4()
+		t.Header("Request-Id", u.String())
+		t.Next()
+	}
 }
