@@ -31,7 +31,8 @@ func Cors[T ginContext](c T, method string) {
 
 func RequestId[T ginContext]() func(T) {
 	return func(t T) {
-		u, _ := uuid.NewV4()
+		u1, _ := uuid.NewV1()
+		u := uuid.NewV3(u1, u1.String())
 		t.Header("Request-Id", u.String())
 		t.Next()
 	}

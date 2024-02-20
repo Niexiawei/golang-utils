@@ -16,7 +16,7 @@ type ResponseResultOptions func(response *Response)
 
 func ResultWithError(error any) ResponseResultOptions {
 	return func(response *Response) {
-		response.Error = error
+		response.Error = anyToString(error)
 	}
 }
 
