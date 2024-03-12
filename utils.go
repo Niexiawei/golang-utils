@@ -41,7 +41,6 @@ func IsBlank(value reflect.Value) bool {
 	return reflect.DeepEqual(value.Interface(), reflect.Zero(value.Type()).Interface())
 }
 
-// Deprecated 移动到 httptools 包内
 func CookiesMerge(old, new []*http.Cookie) []*http.Cookie {
 	newMap := map[string]*http.Cookie{}
 	oldMap := map[string]*http.Cookie{}

@@ -1,6 +1,6 @@
 module github.com/Niexiawei/golang-utils
 
-go 1.21
+go 1.22
 
 require (
 	github.com/go-playground/locales v0.14.1
