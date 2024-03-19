@@ -6,15 +6,6 @@ import (
 	"reflect"
 )
 
-// Deprecated: 移动到 condition 包内
-//func If[T, U any](condition bool, trueVal, elseVal T) T {
-//	if condition {
-//		return trueVal
-//	} else {
-//		return elseVal
-//	}
-//}
-
 func GetEnvDefault(key, defVal string) string {
 	val, ex := os.LookupEnv(key)
 	if !ex {
