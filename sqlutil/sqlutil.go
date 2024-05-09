@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"reflect"
 	"slices"
+	"strconv"
 	"time"
 )
 
@@ -62,6 +63,8 @@ func anyTypeToString(value reflect.Value) string {
 		return fmt.Sprintf("%.6f", value.Interface().(float64))
 	case string:
 		return value.Interface().(string)
+	case int, int8, int16, int32, int64:
+		return strconv.FormatInt(value.Int(), 10)
 	case nil:
 		return ""
 	default:
