@@ -3,6 +3,7 @@ package validate
 import (
 	"errors"
 	"github.com/Niexiawei/golang-utils/maputil"
+	validate_interface "github.com/Niexiawei/golang-utils/validate/interface"
 	validate_method "github.com/Niexiawei/golang-utils/validate/method"
 	"github.com/go-playground/locales/zh"
 	ut "github.com/go-playground/universal-translator"
@@ -25,7 +26,7 @@ func Setup(v *validator.Validate) {
 }
 
 func registerAll() {
-	validatorMethods := []CustomValidator{
+	validatorMethods := []validate_interface.CustomValidator{
 		validate_method.LocationRegister{},
 		validate_method.InValidatorRegister{},
 		validate_method.InByFuncRegister{},
@@ -36,18 +37,11 @@ func registerAll() {
 	}
 }
 
-func Register(r ...CustomValidator) {
+func Register(r ...validate_interface.CustomValidator) {
 	for _, v := range r {
 		v.ValidatorRegister(validatorInstance)
 		v.TransRegister(validatorInstance, &validatorTransInstance)
 	}
-}
-
-type CustomValidator interface {
-	TransRegister(v *validator.Validate, t *ut.Translator) error
-	ValidatorRegister(v *validator.Validate) error
-
-	GetTag() string
 }
 
 func validatorTransHandler() {

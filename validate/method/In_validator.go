@@ -2,12 +2,18 @@ package validate_method
 
 import (
 	"github.com/Niexiawei/golang-utils/slice"
+	validate_interface "github.com/Niexiawei/golang-utils/validate/interface"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	"strconv"
 	"strings"
 )
 
+var (
+	_ validate_interface.CustomValidator = (*InValidatorRegister)(nil)
+)
+
+// custom_validate
 type InValidatorRegister struct {
 }
 

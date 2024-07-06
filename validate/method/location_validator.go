@@ -23,7 +23,7 @@ func (l LocationRegister) GetTag() string {
 
 func (l LocationRegister) TransRegister(v *validator.Validate, t *ut.Translator) error {
 	return v.RegisterTranslation(l.GetTag(), *t, func(ut ut.Translator) error {
-		return ut.Add(l.GetTag(), "{0}:{1}不是一个正确的坐标", true)
+		return ut.Add(l.GetTag(), "{0}:{1} 不是一个正确的坐标", true)
 	}, func(ut ut.Translator, fe validator.FieldError) string {
 		t, _ := ut.T(l.GetTag(), fe.Field(), fe.Value().(string))
 		return t
