@@ -1,12 +1,14 @@
 package validate_method
 
 import (
+	"reflect"
+	"strconv"
+	"strings"
+
 	"github.com/Niexiawei/golang-utils/slice"
 	validate_interface "github.com/Niexiawei/golang-utils/validate/interface"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
-	"strconv"
-	"strings"
 )
 
 var (
@@ -35,22 +37,17 @@ func (i InValidatorRegister) ValidatorRegister(v *validator.Validate) error {
 }
 
 func inValidator(fl validator.FieldLevel) bool {
-	var value string
 	if fl.Field().IsZero() {
 		return true
 	}
-	val := fl.Field().Interface()
 	param := fl.Param()
 	params := strings.Split(param, " ")
-	switch val.(type) {
-	case int:
-		value = strconv.Itoa(val.(int))
-		break
-	case int64:
-		value = strconv.FormatInt(val.(int64), 10)
-		break
-	case string:
-		value = val.(string)
+	var value string
+	switch fl.Field().Kind() {
+	case reflect.String:
+		value = fl.Field().String()
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		value = strconv.FormatInt(fl.Field().Int(), 10)
 	default:
 		return false
 	}

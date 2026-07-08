@@ -5,7 +5,9 @@ import (
 	"github.com/Niexiawei/golang-utils/slice"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
+	"reflect"
 	"strconv"
+	"strings"
 )
 
 const InByFuncValidatorTag = "in_by_func"
@@ -31,19 +33,28 @@ func (i InByFuncRegister) ValidatorRegister(v *validator.Validate) error {
 
 func inByFuncValidator(fl validator.FieldLevel) bool {
 	var value string
-	val := fl.Field().Interface()
-	switch val.(type) {
-	case int:
-		value = strconv.Itoa(val.(int))
-		break
-	case int64:
-		value = strconv.FormatInt(val.(int64), 10)
-		break
+	switch fl.Field().Kind() {
+	case reflect.String:
+		value = fl.Field().String()
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		value = strconv.FormatInt(fl.Field().Int(), 10)
 	default:
 		return false
 	}
-	funcName := fmt.Sprintf("%sInParams", fl.FieldName())
-	method := fl.Parent().MethodByName(funcName)
+
+	// dive 校验切片/数组元素时 FieldName 形如 "Tags[0]"，取字段本名再拼接方法名
+	name := fl.FieldName()
+	if idx := strings.IndexByte(name, '['); idx != -1 {
+		name = name[:idx]
+	}
+	funcName := fmt.Sprintf("%sInParams", name)
+
+	parent := fl.Parent()
+	method := parent.MethodByName(funcName)
+	if !method.IsValid() && parent.CanAddr() {
+		// 支持指针接收者定义的 XxxInParams 方法，避免值接收者产生的结构体复制
+		method = parent.Addr().MethodByName(funcName)
+	}
 	if !method.IsValid() {
 		return false
 	}

@@ -6,7 +6,7 @@ import (
 	"reflect"
 )
 
-func GetEnvDefault(key, defVal string) string {
+func GetEnv(key, defVal string) string {
 	val, ex := os.LookupEnv(key)
 	if !ex {
 		return defVal
@@ -28,8 +28,9 @@ func IsBlank(value reflect.Value) bool {
 		return value.Float() == 0
 	case reflect.Interface, reflect.Ptr:
 		return value.IsNil()
+	default:
+		return reflect.DeepEqual(value.Interface(), reflect.Zero(value.Type()).Interface())
 	}
-	return reflect.DeepEqual(value.Interface(), reflect.Zero(value.Type()).Interface())
 }
 
 func CookiesMerge(old, new []*http.Cookie) []*http.Cookie {
